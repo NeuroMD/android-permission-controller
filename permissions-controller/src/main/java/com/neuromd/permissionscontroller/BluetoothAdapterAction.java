@@ -11,7 +11,7 @@ public final class BluetoothAdapterAction implements PermissionAction {
     }
 
     public static String actionString(){
-        return BluetoothPermissionAction.class.getName();
+        return BluetoothAdapterAction.class.getName();
     }
 
     static {

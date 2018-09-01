@@ -11,7 +11,7 @@ public final class GeolocationAdapterAction implements PermissionAction {
     }
 
     public static String actionString(){
-        return BluetoothPermissionAction.class.getName();
+        return GeolocationAdapterAction.class.getName();
     }
 
     static {
