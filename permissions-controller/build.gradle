@@ -1,4 +1,30 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+ext {
+    bintrayRepo = 'neuro-sdk'
+    bintrayName = 'permissions-controller'
+
+    publishedGroupId = 'com.neuromd.permissionscontroller'
+    libraryName = 'PermissionsController'
+    artifact = 'permissions-controller'
+
+    libraryDescription = 'Simple activity for requesting permissions for your app in one place'
+
+    siteUrl = 'https://wiki.neuromd.com/'
+    gitUrl = 'https://github.com/NeuroMD/android-permissions-controller.git'
+
+    libraryVersion = 1.0
+
+    developerId = 'neuromdltd'
+    developerName = 'NeuroMD'
+    developerEmail = 'support@neuromd.com'
+
+    licenseName = 'MIT License'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
 
 android {
     compileSdkVersion 27
@@ -18,6 +44,88 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    api 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.neuromd.javaobserver:java-observer:1.0'
     testImplementation 'junit:junit:4.12'
 }
+
+archivesBaseName = 'permissions-controller'
+group = publishedGroupId
+version = libraryVersion
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+
+            name libraryName
+            description libraryDescription
+            url siteUrl
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = publishUser
+    key = publishKey
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        userOrg = 'neuromdltd'
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
+}
+
