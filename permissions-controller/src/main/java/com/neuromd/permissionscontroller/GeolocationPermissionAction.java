@@ -27,7 +27,7 @@ public final class GeolocationPermissionAction extends PermissionAction {
 
     private GeolocationPermissionAction(){
         mIsGranted = Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
-        mStatusText = mIsGranted ? "Geolocation permissions are granted" : "Geolocation permissions are not granted";
+        mStatusText = mIsGranted ? "Location permissions granted" : "No location permissions";
     }
 
     private boolean mIsGranted;
