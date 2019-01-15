@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://wiki.neuromd.com/'
     gitUrl = 'https://github.com/NeuroMD/android-permissions-controller.git'
 
-    libraryVersion = 1.0
+    libraryVersion = 1.2
 
     developerId = 'neuromdltd'
     developerName = 'NeuroMD'
@@ -31,8 +31,6 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
     }
     buildTypes {
         release {
@@ -45,7 +43,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'com.android.support.constraint:constraint-layout:1.1.2'
-    api 'com.neuromd.javaobserver:java-observer:1.0'
+    api 'com.neuromd.javaobserver:java-observer:1.2'
     testImplementation 'junit:junit:4.12'
 }
 

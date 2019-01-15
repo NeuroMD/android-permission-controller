@@ -34,11 +34,16 @@ public final class GeolocationPermissionAction extends PermissionAction {
     private String mStatusText;
     private INotificationCallback<PermissionsActivity.PermissionsResultArgs> onPermissionsResult = new INotificationCallback<PermissionsActivity.PermissionsResultArgs>() {
         @Override
-        public void onNotify(Object activity, PermissionsActivity.PermissionsResultArgs args) {
+        public void onNotify(final Object activity, PermissionsActivity.PermissionsResultArgs args) {
             if (args.RequestCode != 112) {
                 return;
             }
-            ((PermissionsActivity) activity).permissionsResultReceived.unsubscribe(onPermissionsResult);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ((PermissionsActivity)activity).permissionsResultReceived.unsubscribe(onPermissionsResult);
+                }
+            }).start();
             mIsGranted = isPermissionGranted((PermissionsActivity) activity);
             if (mIsGranted) {
                 onGranted();
